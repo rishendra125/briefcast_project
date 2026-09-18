@@ -71,11 +71,21 @@ briefcast_project/
 ├── BriefCast.jsx             # Main React component
 ├── briefcast-casestudy.html  # Case study page
 ├── screenshots/              # Drop screenshots here for the case study
-│   ├── briefcast-report.png         # Generated report with RAG badge and confidence flags
-│   └── briefcast-guardrails.png     # Scope creep + RAG Red confirmation in action
+│   ├── briefcast-guardrails.png     # Input UI with synthetic PMO dataset loaded
+│   └── briefcast-report.png        # Generated report: RAG status, confidence flags, risk summary
 ├── README.md
 └── LICENSE
 ```
+
+---
+
+## Screenshots
+
+![BriefCast Input UI](screenshots/briefcast-guardrails.png)
+*Input UI — synthetic PMO dataset pre-loaded, ready to generate*
+
+![BriefCast Report Output](screenshots/briefcast-report.png)
+*Generated report — RAG status, confidence flags, risk summary, and audit trail*
 
 ---
 
