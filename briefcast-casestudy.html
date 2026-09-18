@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BriefCast — Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:       #1B2333;
+    --ink-mid:   #3A4452;
+    --ink-soft:  #6B7A8F;
+    --rule:      #DDE3EC;
+    --surface:   #F3F1EC;
+    --white:     #FFFFFF;
+    --accent:    #9C7A3C;
+    --accent-lt: #EDE3CE;
+    --teal:      #28564F;
+    --teal-lt:   #DCEAE6;
+    --warn:      #8A3B2B;
+    --warn-lt:   #F0DDD6;
+    --mono:      'DM Mono', monospace;
+    --sans:      'DM Sans', system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--white);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  .container-wide { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+  section { padding: 64px 0; border-bottom: 1px solid var(--rule); }
+  section:last-of-type { border-bottom: none; }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+    margin-bottom: 12px;
+  }
+
+  h1, h2, h3 { font-weight: 500; letter-spacing: -0.01em; }
+  h2 { font-size: 26px; margin-bottom: 18px; }
+  h3 { font-size: 19px; margin-bottom: 10px; }
+
+  p { color: var(--ink-mid); margin-bottom: 14px; max-width: 640px; }
+  p:last-child { margin-bottom: 0; }
+
+  em { font-style: italic; }
+  code {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--surface);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 80px 0 48px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--rule);
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-size: 40px;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    max-width: 640px;
+  }
+  .hero-sub {
+    font-size: 17px;
+    color: var(--ink-mid);
+    max-width: 580px;
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+  .hero-links { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-solid, .btn-ghost {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 11px 18px;
+    border-radius: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .btn-solid { background: var(--ink); color: var(--white); border: 1px solid var(--ink); }
+  .btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--rule); }
+
+  /* SCREENSHOTS */
+  .shot {
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .shot-placeholder {
+    width: 100%;
+    height: 300px;
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .shot-placeholder span {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-soft);
+    letter-spacing: 0.05em;
+  }
+  .shot-placeholder svg { opacity: 0.3; }
+  .shot img { display: block; width: 100%; height: auto; }
+  .shot-caption {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    padding: 10px 14px;
+    border-top: 1px solid var(--rule);
+    background: var(--surface);
+  }
+
+  /* SIGNAL STRIP */
+  .signals { background: var(--ink); padding: 32px 0; }
+  .signals-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .signal-item { text-align: center; }
+  .signal-num {
+    font-family: var(--mono);
+    font-size: 30px;
+    color: var(--white);
+    font-weight: 500;
+  }
+  .signal-num.alert { color: #E8A17A; }
+  .signal-label {
+    font-size: 12.5px;
+    color: #9AA5B5;
+    margin-top: 4px;
+  }
+
+  /* TWO COL */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+  .two-col-label {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+
+  /* GUARDRAIL CALLOUTS */
+  .callout {
+    border: 1px solid var(--rule);
+    background: var(--surface);
+    border-radius: 2px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+  }
+  .callout-label {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+  .callout.warn {
+    border-color: var(--warn);
+    background: var(--warn-lt);
+  }
+  .callout.warn .callout-label { color: var(--warn); }
+  .callout.teal {
+    border-color: var(--teal);
+    background: var(--teal-lt);
+  }
+  .callout.teal .callout-label { color: var(--teal); }
+  .callout.accent {
+    border-color: var(--accent);
+    background: var(--accent-lt);
+  }
+  .callout.accent .callout-label { color: var(--accent); }
+  .callout p { font-size: 14.5px; max-width: none; color: var(--ink); }
+
+  /* GUARDRAIL GRID */
+  .guardrail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .guardrail-card {
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 16px 18px;
+  }
+  .guardrail-card .tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--teal);
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+  .guardrail-card h3 { font-size: 15px; margin-bottom: 4px; }
+  .guardrail-card p { font-size: 13.5px; margin-bottom: 0; color: var(--ink-mid); }
+
+  /* ARCHITECTURE LIST */
+  .arch-list { display: flex; flex-direction: column; gap: 0; }
+  .arch-item {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 14px;
+    padding: 18px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .arch-item:last-child { border-bottom: 1px solid var(--rule); }
+  .arch-num {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+  }
+  .arch-item h3 { margin-bottom: 4px; font-size: 16px; }
+  .arch-item p { font-size: 14.5px; }
+
+  /* SKILL GRID */
+  .skill-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .skill-card {
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 16px 18px;
+  }
+  .skill-card .tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--teal);
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+  .skill-card h3 { font-size: 15px; margin-bottom: 4px; }
+  .skill-card p { font-size: 13.5px; margin-bottom: 0; }
+
+  /* FOOTER */
+  footer { padding: 48px 0 64px; text-align: center; }
+  footer p { margin: 0 auto; color: var(--ink-soft); font-size: 13.5px; }
+
+  @media (max-width: 680px) {
+    .two-col { grid-template-columns: 1fr; }
+    .signals-grid { grid-template-columns: repeat(2, 1fr); }
+    .skill-grid { grid-template-columns: 1fr; }
+    .guardrail-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 30px; }
+    .shot-placeholder { height: 200px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container-wide">
+    <div class="eyebrow">BRIEFCAST</div>
+    <h1>AI-powered stakeholder reporting — from raw PMO data to a governance-ready status report</h1>
+    <p class="hero-sub">A React tool that takes JIRA sprint exports, escalation logs, and delivery metrics and generates structured, audience-tuned leadership reports — with an interpretive layer that surfaces patterns the data implies, not just what it states.</p>
+    <div class="hero-links">
+      <a class="btn-solid" href="https://github.com/rishendra125/briefcast_project" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6v6M10 14L21 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Open live demo
+      </a>
+      <a class="btn-ghost" href="https://github.com/rishendra125/briefcast_project" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        View source
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- SCREENSHOTS -->
+<div class="container-wide" style="padding-top: 48px; padding-bottom: 0;">
+  <div class="shot">
+    <img src="screenshots/briefcast-guardrails.png" alt="BriefCast input UI with synthetic PMO dataset loaded" />
+    <div class="shot-caption">Input UI: synthetic PMO dataset pre-loaded across all three sources — demo ready without any user input</div>
+  </div>
+  <div class="shot">
+    <img src="screenshots/briefcast-report.png" alt="BriefCast generated report with RAG badge and confidence flags" />
+    <div class="shot-caption">Generated report: executive summary, RAG status, ⚠️ confidence flags surfaced by the interpretive layer</div>
+  </div>
+</div>
+
+<!-- SIGNAL STRIP -->
+<div class="container-wide" style="padding-top: 32px;">
+  <div class="signals">
+    <div class="signals-grid">
+      <div class="signal-item">
+        <div class="signal-num">3</div>
+        <div class="signal-label">input sources unified into one report</div>
+      </div>
+      <div class="signal-item">
+        <div class="signal-num">5</div>
+        <div class="signal-label">guardrails built in by design</div>
+      </div>
+      <div class="signal-item">
+        <div class="signal-num alert">0</div>
+        <div class="signal-label">silent failures — every ambiguity is surfaced</div>
+      </div>
+      <div class="signal-item">
+        <div class="signal-num">9</div>
+        <div class="signal-label">audience × period × tone combinations</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM / SOLUTION -->
+<div class="container">
+  <section>
+    <div class="section-label">context</div>
+    <div class="two-col">
+      <div>
+        <div class="two-col-label">the gap</div>
+        <h3>Status reporting is where PMO discipline is most visible — and most often let down by the tooling</h3>
+        <p>In a live programme, the difference between a Steering Committee report that lands and one that doesn't isn't the data — it's the interpretation. Velocity dropped 20% but on-time rate held? That's a leading indicator of capacity risk, not a clean week. A tool that just reformats data leaves that pattern invisible.</p>
+        <p>Most reporting generators are formatters. BriefCast is built around the idea that the interpretive layer — the pattern recognition a senior PM applies before writing — is where the actual value is.</p>
+      </div>
+      <div>
+        <div class="two-col-label">the approach</div>
+        <h3>The AI's job is interpretation, not transcription — with explicit flags when it's uncertain</h3>
+        <p>Three raw data sources (sprint export, escalation log, delivery metrics) plus three context dropdowns (period, audience, tone) go into a single Claude API call. The output isn't a formatted version of the input — it's a structured report that surfaces what the data implies, tuned to the governance register of the audience selected.</p>
+        <p>Where the data is ambiguous or incomplete, the AI flags it with a ⚠️ marker rather than presenting a guess as a conclusion. Human-in-the-loop by design, not by accident.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GUARDRAILS -->
+  <section>
+    <div class="section-label">what's built in</div>
+    <h2>Five guardrails — because Red status has governance consequences</h2>
+    <p>PMO reporting isn't just a writing task. A Red RAG status circulated to a Steering Committee has real downstream effects. Each guardrail is a decision point, not a warning label.</p>
+
+    <div class="guardrail-grid">
+      <div class="guardrail-card">
+        <div class="tag">data completeness</div>
+        <h3>Pre-generation validation</h3>
+        <p>If any of the three input sources is empty or sparse, the tool warns before generating — not after. A report that looks complete but isn't is worse than no report.</p>
+      </div>
+      <div class="guardrail-card">
+        <div class="tag">scope creep detector</div>
+        <h3>Period accuracy check</h3>
+        <p>If input data references work outside the declared reporting period, it's flagged and excluded rather than silently included. Keeps the report period-accurate without manual review.</p>
+      </div>
+      <div class="guardrail-card">
+        <div class="tag">rag red confirmation</div>
+        <h3>Human sign-off on Red</h3>
+        <p>If the AI assigns Red but input data is ambiguous, the report pauses and asks the user to confirm or override before finalising. Red is never set silently.</p>
+      </div>
+      <div class="guardrail-card">
+        <div class="tag">tone consistency</div>
+        <h3>Audience mismatch flag</h3>
+        <p>C-suite selected but sprint data contains technical detail? The tool flags the mismatch before finalising, so the right level of abstraction reaches the right room.</p>
+      </div>
+    </div>
+
+    <div class="callout teal" style="margin-top: 16px;">
+      <div class="callout-label">audit trail</div>
+      <p>Every generated report carries a timestamp and a hash of the input data — a traceable answer to "what data did this report come from?" Critical in any governance-accountable programme context.</p>
+    </div>
+  </section>
+
+  <!-- INTERPRETIVE LAYER -->
+  <section>
+    <div class="section-label">the interpretive layer</div>
+    <h2>What the AI surfaces that a formatter wouldn't</h2>
+
+    <div class="callout accent">
+      <div class="callout-label">example — from the synthetic demo dataset</div>
+      <p>Sprint velocity dropped 19% against target (38 vs 47 story points). On-time delivery rate: 74% vs 85% target — lagging but stable. A formatter reports both numbers. BriefCast's executive summary flags the velocity drop as a <em>leading indicator</em> of capacity risk not yet visible in milestone status, and marks the interpretation with ⚠️ because it's a single-sprint sample — insufficient to confirm a systemic trend.</p>
+    </div>
+
+    <p style="margin-top: 18px;">The same AI call also produced two confidence flags on the synthetic dataset: one on the velocity trend (single data point, not enough to call a pattern), one on MS-06 Stakeholder Signoff Draft (19 days to due date, not started — no progress signal available to assess risk). Both are surfaced in the report, not buried or dropped.</p>
+  </section>
+
+  <!-- HOW IT'S BUILT -->
+  <section>
+    <div class="section-label">how it's built</div>
+    <h2>Architecture: what's rule-based, what's AI-generated</h2>
+    <div class="arch-list">
+      <div class="arch-item">
+        <div class="arch-num">01</div>
+        <div>
+          <h3>Input validation — rule-based, pre-generation</h3>
+          <p>Data completeness check and scope creep detection run client-side before any API call is made. These are deterministic checks — the AI doesn't decide whether data is missing or out-of-period.</p>
+        </div>
+      </div>
+      <div class="arch-item">
+        <div class="arch-num">02</div>
+        <div>
+          <h3>Report generation — Claude API, structured JSON output</h3>
+          <p>All three input sources plus context dropdowns go to <code>claude-sonnet-4-6</code> with a system prompt that instructs: interpret patterns unprompted, flag ambiguity with ⚠️, adapt tone strictly to audience, and return structured JSON for all five report sections.</p>
+        </div>
+      </div>
+      <div class="arch-item">
+        <div class="arch-num">03</div>
+        <div>
+          <h3>RAG Red confirmation — human-in-the-loop interrupt</h3>
+          <p>If the API returns <code>"rag": "Red"</code> and <code>"ragAmbiguous": true</code>, the UI intercepts before rendering the report and presents a confirmation dialog. The report only finalises once a human has reviewed and decided.</p>
+        </div>
+      </div>
+      <div class="arch-item">
+        <div class="arch-num">04</div>
+        <div>
+          <h3>Tone consistency check — post-generation, pre-display</h3>
+          <p>After generation, if C-suite audience is selected, the raw input is checked for technical implementation detail. A mismatch flag is surfaced before the user sees the report — not embedded in it.</p>
+        </div>
+      </div>
+      <div class="arch-item">
+        <div class="arch-num">05</div>
+        <div>
+          <h3>Audit trail — deterministic, not AI-generated</h3>
+          <p>Timestamp and an 8-character hex hash of the concatenated input data are computed client-side and attached to every report. These are always accurate — no risk of the AI fabricating provenance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS MAPPING -->
+  <section>
+    <div class="section-label">what this demonstrates</div>
+    <h2>Mapped to what a senior PMO or programme management role actually requires</h2>
+    <div class="skill-grid">
+      <div class="skill-card">
+        <div class="tag">governance reporting</div>
+        <h3>Stakeholder-grade status reports</h3>
+        <p>RAG status, five-section structure, audience-tuned tone — the report format is the format a Steering Committee or C-suite actually receives in a live programme.</p>
+      </div>
+      <div class="skill-card">
+        <div class="tag">pattern recognition</div>
+        <h3>Leading vs. lagging indicator distinction</h3>
+        <p>The interpretive layer is built to surface the velocity–on-time rate divergence pattern specifically, because that's the kind of signal a senior PM reads before writing the exec summary.</p>
+      </div>
+      <div class="skill-card">
+        <div class="tag">risk management</div>
+        <h3>Escalation-aware design</h3>
+        <p>The RAG Red confirmation, no-owner flagging, and DPA sign-off tracking in the demo dataset all reflect real programme risk management discipline, not illustrative invention.</p>
+      </div>
+      <div class="skill-card">
+        <div class="tag">ai product thinking</div>
+        <h3>Guardrails as product features, not afterthoughts</h3>
+        <p>Each of the five guardrails was specced before any code was written — because in a governance context, the failure modes of an AI reporting tool are as important as its outputs.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <p>Rishendra Vikram Singh · <a href="https://rishendra125.github.io" style="color: inherit;">rishendra125.github.io</a></p>
+</footer>
+
+</body>
+</html>
